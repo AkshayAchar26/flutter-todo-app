@@ -8,7 +8,6 @@ import '../../data/sharedpref/constants/preferences.dart';
 import '../../di/service_locator.dart';
 import '../../utils/locale/app_localization.dart';
 import '../../utils/routes/routes.dart';
-import '../post/post_list.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -24,7 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      body: PostListScreen(),
     );
   }
 

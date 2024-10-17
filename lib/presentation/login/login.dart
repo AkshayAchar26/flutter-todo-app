@@ -7,6 +7,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:todo_app/presentation/login/store/login_store.dart';
+import 'package:todo_app/presentation/todo/todo_home.dart';
 
 import '../../constants/assets.dart';
 import '../../core/stores/form/form_store.dart';
@@ -48,7 +49,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-  final SaveAuthTokenUsecase _saveAuthTokenUsecase = getIt<SaveAuthTokenUsecase>();
+  final SaveAuthTokenUsecase _saveAuthTokenUsecase =
+      getIt<SaveAuthTokenUsecase>();
   final LoginUseCase _loginUseCase = getIt<LoginUseCase>();
 
   bool _isSignIn = true;
@@ -219,7 +221,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-
   Widget _buildSignUpSignInButton() {
     return MaterialButton(
       child: Text(
@@ -317,8 +318,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
             final loginStatus = await _sharedPreferenceHelper.isLoggedIn;
             if (loginStatus) {
-              // Navigator.push(
-              //     context, MaterialPageRoute(builder: (context) => AddGroupsScreen()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => TodoHome()));
             }
           } on FirebaseAuthException catch (e) {
             if (e.code == 'invalid-credential') {
@@ -355,7 +356,6 @@ class _LoginScreenState extends State<LoginScreen> {
         final GoogleSignInAuthentication googleSignInAuthentication =
             await googleSignInAccount.authentication;
 
-
         final AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleSignInAuthentication.accessToken,
           idToken: googleSignInAuthentication.idToken,
@@ -369,20 +369,21 @@ class _LoginScreenState extends State<LoginScreen> {
 
         if (token != null && token.isNotEmpty) {
           await _saveAuthTokenUsecase.call(params: token);
-          final user = await _loginUseCase.call(params: LoginParams(email: _userEmailController.text, password: _passwordController.text));
+          final user = await _loginUseCase.call(
+              params: LoginParams(
+                  email: _userEmailController.text,
+                  password: _passwordController.text));
 
           if (user != null) {
-           _userStore.loginStatusSignInWithGoogle(token,user.userId);
+            _userStore.loginStatusSignInWithGoogle(token, user.userId);
           }
         }
 
         final loginStatus = await _sharedPreferenceHelper.isLoggedIn;
         if (loginStatus) {
-          // Navigator.push(
-          //     context, MaterialPageRoute(builder: (context) => AddGroupsScreen()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => TodoHome()));
         }
-
-
       }
     } catch (error) {
       print('Google sign-in error: $error');

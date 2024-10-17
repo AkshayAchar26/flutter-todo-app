@@ -1,21 +1,24 @@
 import 'dart:async';
 
+import 'package:todo_app/domain/usecase/todo/delete_todo_usecase.dart';
+import 'package:todo_app/domain/usecase/todo/get_todo_usecase.dart';
+import 'package:todo_app/domain/usecase/todo/insert_todo_usecase.dart';
+import 'package:todo_app/domain/usecase/todo/update_todo_usecae.dart';
 import 'package:todo_app/domain/usecase/user/remove_auth_token_usecase.dart';
 import 'package:todo_app/domain/usecase/user/save_auth_token_usecase.dart';
 import 'package:todo_app/domain/usecase/user/save_userId_usecase.dart';
+import 'package:todo_app/presentation/todo/store/todo_store.dart';
 
 import '../../../core/stores/error/error_store.dart';
 import '../../../core/stores/form/form_store.dart';
 import '../../../di/service_locator.dart';
 import '../../../domain/repository/setting/setting_repository.dart';
-import '../../../domain/usecase/post/get_post_usecase.dart';
 import '../../../domain/usecase/user/is_logged_in_usecase.dart';
 import '../../../domain/usecase/user/login_usecase.dart';
 import '../../../domain/usecase/user/save_login_in_status_usecase.dart';
 import '../../home/store/language/language_store.dart';
 import '../../home/store/theme/theme_store.dart';
 import '../../login/store/login_store.dart';
-import '../../post/store/post_store.dart';
 
 class StoreModule {
   static Future<void> configureStoreModuleInjection() async {
@@ -29,22 +32,14 @@ class StoreModule {
     // stores:------------------------------------------------------------------
     getIt.registerSingleton<UserStore>(
       UserStore(
-        getIt<IsLoggedInUseCase>(),
-        getIt<SaveLoginStatusUseCase>(),
-        getIt<LoginUseCase>(),
-        getIt<FormErrorStore>(),
-        getIt<RemoveAuthTokenUsecase>(),
-        getIt<SaveAuthTokenUsecase>(),
-        getIt<SaveUseridUsecase>(),
-        getIt<ErrorStore>()
-      ),
-    );
-
-    getIt.registerSingleton<PostStore>(
-      PostStore(
-        getIt<GetPostUseCase>(),
-        getIt<ErrorStore>(),
-      ),
+          getIt<IsLoggedInUseCase>(),
+          getIt<SaveLoginStatusUseCase>(),
+          getIt<LoginUseCase>(),
+          getIt<FormErrorStore>(),
+          getIt<RemoveAuthTokenUsecase>(),
+          getIt<SaveAuthTokenUsecase>(),
+          getIt<SaveUseridUsecase>(),
+          getIt<ErrorStore>()),
     );
 
     getIt.registerSingleton<ThemeStore>(
@@ -60,5 +55,11 @@ class StoreModule {
         getIt<ErrorStore>(),
       ),
     );
+
+    getIt.registerSingleton<TodoStore>(TodoStore(
+        getIt<GetTodoUsecase>(),
+        getIt<InsertTodoUsecase>(),
+        getIt<UpdateTodoUsecae>(),
+        getIt<DeleteTodoUsecase>()));
   }
 }

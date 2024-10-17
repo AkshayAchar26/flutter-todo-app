@@ -51,7 +51,6 @@ class NetworkModule {
     );
 
     // api's:-------------------------------------------------------------------
-    getIt.registerSingleton(PostApi(getIt<DioClient>(), getIt<RestClient>()));
     getIt.registerSingleton(UserApi(getIt<DioClient>(), getIt<SharedPreferenceHelper>()));
   }
 }

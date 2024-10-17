@@ -29,7 +29,7 @@ class TextFieldWidget extends StatelessWidget {
         autofocus: autoFocus,
         textInputAction: inputAction,
         obscureText: this.isObscure,
-        maxLength: 25,
+        maxLength: 50,
         keyboardType: this.inputType,
         style: Theme.of(context).textTheme.bodyLarge,
         decoration: InputDecoration(
