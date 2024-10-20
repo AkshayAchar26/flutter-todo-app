@@ -56,12 +56,12 @@ mixin _$TodoStore on _TodoStore, Store {
     });
   }
 
-  late final _$_initAsyncAction =
-      AsyncAction('_TodoStore._init', context: context);
+  late final _$getTodosAsyncAction =
+      AsyncAction('_TodoStore.getTodos', context: context);
 
   @override
-  Future<void> _init() {
-    return _$_initAsyncAction.run(() => super._init());
+  Future<void> getTodos() {
+    return _$getTodosAsyncAction.run(() => super.getTodos());
   }
 
   late final _$addTodoAsyncAction =

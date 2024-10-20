@@ -22,11 +22,12 @@ abstract class _TodoStore with Store {
     this._updateTodoUsecase,
     this._deleteTodoUsecase,
   ) {
-    _init();
+    getTodos();
   }
 
   @observable
   ObservableList<Todo> todos = ObservableList<Todo>();
+
 
   @observable
   bool isLoading = false;
@@ -35,7 +36,7 @@ abstract class _TodoStore with Store {
   String? errorMessage;
 
   @action
-  Future<void> _init() async {
+  Future<void> getTodos() async {
     isLoading = true;
     try {
       todos = ObservableList.of(await _getTodoUsecase.call(params: null));

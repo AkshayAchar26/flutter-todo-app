@@ -3,9 +3,11 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_app/presentation/home/store/language/language_store.dart';
 import 'package:todo_app/presentation/home/store/theme/theme_store.dart';
+import 'package:todo_app/presentation/todo/TodoListScreen.dart';
 
 import '../../data/sharedpref/constants/preferences.dart';
 import '../../di/service_locator.dart';
+import '../../domain/entity/todo/todo.dart';
 import '../../utils/locale/app_localization.dart';
 import '../../utils/routes/routes.dart';
 
@@ -23,13 +25,32 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
+      body: TodoListScreen(onFloatingActionButtonPressed: _onFabPressed,),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          final result = await TodoListScreen.of(context)?.addTodoItem("New Todo");
+          if (result is Todo) {
+            // Handle successful to-do addition (e.g., update UI)
+            print("Todo added: ${result.todoName}");
+          } else {
+            // Handle error (e.g., display error message)
+            print("Error adding todo: $result");
+          }
+        },
+        child: Icon(Icons.add),
+      ),
     );
+  }
+
+  void _onFabPressed() {
+    // Add your logic here for when the FAB is pressed in HomeScreen
+    print("Floating action button pressed in HomeScreen");
   }
 
   // app bar methods:-----------------------------------------------------------
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      title: Text(AppLocalizations.of(context).translate('home_tv_posts')),
+      title: Text(AppLocalizations.of(context).translate('home_tv_todos')),
       actions: _buildActions(context),
     );
   }

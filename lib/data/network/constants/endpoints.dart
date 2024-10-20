@@ -2,7 +2,7 @@ class Endpoints {
   Endpoints._();
 
   // base url
-  static const String baseUrl = "http://10.0.2.2:4000";
+  static const String baseUrl = "http://10.0.2.2:8000/api/v1";
   // static const String baseUrl = "http://localhost:4000";
 
 
@@ -12,29 +12,17 @@ class Endpoints {
   // connectTimeout
   static const int connectionTimeout = 30000;
 
-  // booking endpoints
-  static const String getPosts = baseUrl + "/posts";
+  // TodoRoute
+  static const String todoRoute = baseUrl + "/todo";
+  static const String createTodo = todoRoute + "/addTodo";
+  static const String updateTodo = todoRoute + "/updateTodo";
+  static const String getTodos = todoRoute + "getTodo";
+  static const String deleteTodo = todoRoute + "deleteTodo";
 
-  static const String workspace = baseUrl + "/api/workspace";
+  //ProfileRoute
+  static const String profileRoute = baseUrl + "/profile";
 
-  static const String createUser = baseUrl + "/api/profiles";
 
-  static const String createAssetCategory = 'add-asset-category';
 
-  static const String createShoppingListCategory = baseUrl + "/api/lookup";
-
-  static const String getShoppingListCategory = baseUrl + "/api/lookup";
-
-  static const String updateShoppingListCategory = baseUrl + "/api/lookup";
-
-  static const String deleteShoppingListCategory = baseUrl + "/api/lookup";
-
-  static const String createExpenseCategory = baseUrl + "/api/lookup";
-
-  static const String getExpenseCategory = baseUrl + "/api/lookup";
-
-  static const String updateExpenseCategory = baseUrl + "/api/lookup";
-
-  static const String deleteExpenseCategory = baseUrl + "/api/lookup";
 
 }

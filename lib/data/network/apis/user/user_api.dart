@@ -16,16 +16,13 @@ class UserApi {
   Future<User?> createUserInDB() async {
     try {
       final token = await _sharedPreferenceHelper.authToken;
-      final res = await _dioClient.dio.get(Endpoints.createUser,options: Options(
+      final res = await _dioClient.dio.get(Endpoints.profileRoute,options: Options(
           headers: {
             "authorization" : "Token ${token}"
           }
       ),);
-
-      log('${res.statusMessage}');
-
-      if (res.statusCode == 201) {
-        return User.fromMap(res.data);
+      if (res.statusCode == 200) {
+        return User.fromMap(res.data["data"]);
       } else {
         return null;
       }

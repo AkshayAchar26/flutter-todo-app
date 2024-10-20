@@ -7,6 +7,9 @@
   "login_error_fill_fields": "Por favor complete todos los campos e",
   "login_end": "------------------------------------------------------------------------------------",
 
+  "home_tv_no_todos_found": "No todos found",
+  "home_tv_todos": "Todos",
+
   "home_start": "Below are list of strings for home",
   "home_tv_posts": "Publicaciones",
   "home_tv_error": "Error",

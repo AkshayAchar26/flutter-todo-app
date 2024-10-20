@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -98,6 +100,7 @@ abstract class _UserStore with Store {
       if (token != null && token.isNotEmpty) {
         await _saveAuthTokenUsecase(params: token);
         final User? user = await _loginUseCase.call(params: LoginParams(email: email, password: password));
+        log("Login state : $user");
         if (user != null ) {
           await _saveLoginStatusUseCase.call(params: true);
           await _saveUseridUsecase.call(params: user.userId);
