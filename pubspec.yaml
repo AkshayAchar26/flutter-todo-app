@@ -62,6 +62,7 @@ dependencies:
   internet_connection_checker_plus: ^1.0.1
   google_sign_in: ^6.2.1
   uuid: ^4.5.1
+  flutter_svg: ^2.0.9
   # Y
   # Z
 

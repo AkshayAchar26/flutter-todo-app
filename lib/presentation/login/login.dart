@@ -75,20 +75,25 @@ class _LoginScreenState extends State<LoginScreen> {
     return Material(
       child: Stack(
         children: <Widget>[
-          MediaQuery.of(context).orientation == Orientation.landscape
-              ? Row(
-                  children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: _buildLeftSide(),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: _buildRightSide(),
-                    ),
-                  ],
-                )
-              : Center(child: _buildRightSide()),
+          _isSignIn ? Padding(
+            padding: const EdgeInsets.only(top: 140, left: 25),
+            child: Text("Sign In",
+            style: TextStyle(
+              fontWeight: FontWeight.w900,
+              fontSize: 20
+            ),
+            ),
+          ) : Padding(
+            padding: const EdgeInsets.only(top: 140, left: 25),
+            child: Text("Sign Up",
+              style: TextStyle(
+                  fontWeight: FontWeight.w900,
+                  fontSize: 20
+
+              ),
+            ),
+          ),
+          Center(child: _buildRightSide()),
           Observer(
             builder: (context) {
               return _userStore.success
@@ -127,10 +132,10 @@ class _LoginScreenState extends State<LoginScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            AppIconWidget(image: 'assets/icons/ic_appicon.png'),
             SizedBox(height: 24.0),
             _isSignIn ? _buildSignInFields() : _buildSignUpFields(),
             // Show appropriate fields based on _isSignIn
+            SizedBox(height: 24.0),
             _isSignIn ? _buildSignInButton() : _buildSignUpButton(),
             // Show appropriate button based on _isSignIn
             _buildOrText(),
@@ -145,11 +150,19 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildSignUpButton() {
     return Padding(
       padding: const EdgeInsets.only(top: 20, left: 10),
-      child: RoundedButtonWidget(
+      child: ElevatedButton(
         // buttonText: AppLocalizations.of(context).translate('login_btn_sign_up'),
-        buttonText: "sign up",
-        buttonColor: Colors.orangeAccent,
-        textColor: Colors.white,
+        child: Text('Sign In',
+          style: TextStyle(
+            color: _themeStore.darkMode ? Color.fromARGB(255, 42, 42, 42) : Color.fromARGB(255, 253, 211, 42),
+          ),
+        ),
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10)
+          ),
+          backgroundColor: _themeStore.darkMode ? Color.fromARGB(255, 253, 211, 42) : Color.fromARGB(255, 42, 42, 42),
+        ),
         onPressed: () async {
           if (_formStore.canLogin) {
             DeviceUtils.hideKeyboard(context);
@@ -222,22 +235,31 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildSignUpSignInButton() {
-    return MaterialButton(
-      child: Text(
-        // _isSignIn
-        //     ? AppLocalizations.of(context).translate('login_btn_sign_up')
-        //     : AppLocalizations.of(context).translate('login_btn_sign_in'),
-        _isSignIn ? "sign up" : "sign in",
-        style: Theme.of(context)
-            .textTheme
-            .bodySmall
-            ?.copyWith(color: Colors.orangeAccent),
+    return Padding(
+      padding: const EdgeInsets.only(top: 40),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _isSignIn ? Text("Create account") : Text("Already have an account?"),
+          TextButton(
+            onPressed: () {
+              setState(() {
+                _isSignIn = !_isSignIn; // Toggle between sign-in and sign-up
+              });
+            },
+            child: Text(
+              // _isSignIn
+              //     ? AppLocalizations.of(context).translate('login_btn_sign_up')
+              //     : AppLocalizations.of(context).translate('login_btn_sign_in'),
+              _isSignIn ? "sign up" : "sign in",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall
+                  ?.copyWith(color: Colors.orangeAccent),
+            ),
+          ),
+        ],
       ),
-      onPressed: () {
-        setState(() {
-          _isSignIn = !_isSignIn; // Toggle between sign-in and sign-up
-        });
-      },
     );
   }
 
@@ -285,7 +307,9 @@ class _LoginScreenState extends State<LoginScreen> {
         SizedBox(height: 24.0),
         Container(),
         _buildUserIdField(),
+        SizedBox(height: 24.0),
         _buildPasswordField(),
+        SizedBox(height: 24.0),
         _buildForgotPasswordButton(),
       ],
     );
@@ -296,16 +320,25 @@ class _LoginScreenState extends State<LoginScreen> {
       children: [
         SizedBox(height: 24.0),
         _buildUserIdField(),
+        SizedBox(height: 24.0),
         _buildPasswordField(),
       ],
     );
   }
 
   Widget _buildSignInButton() {
-    return RoundedButtonWidget(
-      buttonText: AppLocalizations.of(context).translate('login_btn_sign_in'),
-      buttonColor: Colors.orangeAccent,
-      textColor: Colors.white,
+    return ElevatedButton(
+      child: Text('Sign In',
+      style: TextStyle(
+        color: _themeStore.darkMode ? Color.fromARGB(255, 42, 42, 42) : Color.fromARGB(255, 253, 211, 42),
+      ),
+      ),
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10)
+        ),
+        backgroundColor: _themeStore.darkMode ? Color.fromARGB(255, 253, 211, 42) : Color.fromARGB(255, 42, 42, 42),
+      ),
       onPressed: () async {
         if (_formStore.canLogin) {
           DeviceUtils.hideKeyboard(context);
@@ -340,10 +373,22 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildGoogleSignInButton() {
-    return ElevatedButton.icon(
-      icon: Icon(Icons.login),
-      label: Text('Sign in with Google'),
-      onPressed: _signInWithGoogle,
+    return Padding(
+      padding: const EdgeInsets.only(left: 10),
+      child: ElevatedButton(
+        child: Text('Sign in with google',
+          style: TextStyle(
+            color: _themeStore.darkMode ? Color.fromARGB(255, 42, 42, 42) : Color.fromARGB(255, 253, 211, 42),
+          ),
+        ),
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10)
+          ),
+          backgroundColor: _themeStore.darkMode ? Color.fromARGB(255, 253, 211, 42) : Color.fromARGB(255, 42, 42, 42),
+        ),
+        onPressed: _signInWithGoogle,
+      ),
     );
   }
 

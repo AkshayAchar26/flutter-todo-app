@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:todo_app/presentation/todo/todo_home.dart';
 
 import '../constants/app_theme.dart';
 import '../constants/strings.dart';
@@ -47,7 +48,8 @@ class MyApp extends StatelessWidget {
             GlobalCupertinoLocalizations.delegate,
           ],
 
-          home: _userStore.isLoggedIn ? HomeScreen() : LoginScreen(),
+          home: TodoHome(),
+
         );
       },
     );
